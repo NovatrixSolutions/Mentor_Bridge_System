@@ -569,7 +569,7 @@
       const connectionsContainer = document.getElementById("connectionsContainer");
       
       try {
-        const resp = await fetch(`http://127.0.0.1:8000/connect/student/${studentId}`);
+        const resp = await fetch(`https://mentorbridge-api-3l36.onrender.com/connect/student/${studentId}`);
         
         if (!resp.ok) {
           throw new Error('Failed to load connections');
@@ -648,7 +648,7 @@
     // -----------------------------
     async function loadConnectionStatus() {
       try {
-        const resp = await fetch(`http://127.0.0.1:8000/connect/student/${studentId}`);
+        const resp = await fetch(`https://mentorbridge-api-3l36.onrender.com/connect/student/${studentId}`);
         const requests = await resp.json();
         console.log("Existing connection requests:", requests);
 
@@ -705,7 +705,7 @@
 
       try {
         const response = await fetch(
-          `http://127.0.0.1:8000/recommend/student/${studentId}?top_k=6`
+          `https://mentorbridge-api-3l36.onrender.com/recommend/student/${studentId}?top_k=6`
         );
 
         if (!response.ok) {
