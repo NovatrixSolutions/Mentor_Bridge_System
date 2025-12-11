@@ -7,7 +7,6 @@ from .routers import email as email_router
 from .routers import alumni as alumni_router
 
 # Routers
-from .routers import alumni as alumni_router
 from .routers import students as students_router
 from .routers import recommend as recommend_router
 from .routers import feedback as feedback_router
@@ -19,11 +18,12 @@ models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Alumni Recommendation Backend")
 
-# CORS – allow your frontend on port 5500
+# ✅ CORS – ADD YOUR ACTUAL FRONTEND URL
 origins = [
     "http://127.0.0.1:5500",
     "http://localhost:5500",
-    "https://mentorbridge-frontend.onrender.com"
+    "https://mentor-bridge-frontend-kekd.onrender.com",  # ← YOUR ACTUAL URL!
+    "*"  # Allow all temporarily for testing
 ]
 
 app.add_middleware(
@@ -42,9 +42,6 @@ app.include_router(feedback_router.router)
 app.include_router(connections_router.router)
 app.include_router(chat_router.router)
 app.include_router(email_router.router)
-app.include_router(alumni_router.router)
-
-
 
 @app.get("/")
 def home():
