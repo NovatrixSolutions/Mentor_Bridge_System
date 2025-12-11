@@ -425,7 +425,7 @@
     async function loadHistory() {
       try {
         const resp = await fetch(
-          `http://127.0.0.1:8000/chat/history?student_id=${studentId}&alumni_id=${alumniId}`
+          `https://mentorbridge-api-3l36.onrender.com/chat/history?student_id=${studentId}&alumni_id=${alumniId}`
         );
         const messages = await resp.json();
         console.log("Chat history:", messages);
@@ -470,7 +470,7 @@
       showTypingIndicator();
 
       try {
-        const response = await fetch("http://127.0.0.1:8000/chat/send", {
+        const response = await fetch("https://mentorbridge-api-3l36.onrender.com/chat/send", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
