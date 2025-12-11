@@ -1,0 +1,51 @@
+ID,Name,Email,Grad Year,Dept,Current Role,Company,Exp (yrs),Skills,Domain,Location,Mentor Available
+A001,Rahul Sharma,rahul.sharma@alumninetwork.org,2019,CSE,Data Scientist,TCS,4,"Python, ML, SQL, Power BI",Data Science,Bengaluru,Yes
+A002,Sneha Reddy,sneha.reddy@alumninetwork.org,2020,CSE,Software Engineer,Infosys,3,"Java, Spring Boot, MySQL",Backend Dev,Hyderabad,Yes
+A003,Kiran Patel,kiran.patel@alumninetwork.org,2018,ECE,Cloud Engineer,Amazon,5,"AWS, Docker, Kubernetes",Cloud Computing,Mumbai,Yes
+A004,Anusha N,anusha.n@alumninetwork.org,2021,IT,Frontend Developer,Wipro,2,"React, HTML, CSS, JS",Web Development,Chennai,Yes
+A005,Mohammed Irfan,mohammed.irfan@alumninetwork.org,2017,CSE,Data Engineer,Accenture,6,"Python, SQL, Hadoop, Spark",Data Engineering,Pune,No
+A006,Priya Singh,priya.singh@alumninetwork.org,2019,CSE,ML Engineer,StartupX,4,"TensorFlow, NLP, Python",AI/ML,Bengaluru,Yes
+A007,Abhishek Verma,abhishek.verma@alumninetwork.org,2016,MECH,Product Manager,Flipkart,8,"Agile, SQL, User Research",Product Management,Bengaluru,No
+A008,Divya Sri,divya.sri@alumninetwork.org,2020,ECE,Business Analyst,Deloitte,3,"Excel, Power BI, Tableau",Business Analytics,Hyderabad,Yes
+A009,Rohit Kulkarni,rohit.kulkarni@alumninetwork.org,2018,CSE,DevOps Engineer,IBM,5,"Jenkins, Docker, Git, AWS",DevOps,Pune,Yes
+A010,Harini Iyer,harini.iyer@alumninetwork.org,2019,CSE,Full Stack Developer,HCL,4,MERN Stack,Full Stack,Chennai,Yes
+A011,Suresh Babu,suresh.babu@alumninetwork.org,2015,CSE,Software Architect,Microsoft,10,".NET, Azure, Microservices",Architecture,Hyderabad,No
+A012,Pooja Agarwal,pooja.agarwal@alumninetwork.org,2021,CSE,Data Analyst,KPMG,2,"SQL, Excel, Statistics",Data Analytics,Mumbai,Yes
+A013,Naveen Kumar,naveen.kumar@alumninetwork.org,2018,EEE,Embedded Engineer,Bosch,5,"C, ARM, IoT",Embedded Systems,Coimbatore,Yes
+A014,Lakshmi Prasanna,lakshmi.prasanna@alumninetwork.org,2017,CSE,Cyber Security Analyst,EY,6,"Network Security, SIEM",Cyber Security,Bengaluru,Yes
+A015,Aditya Deshmukh,aditya.deshmukh@alumninetwork.org,2020,CSE,Android Developer,Swiggy,3,"Kotlin, Firebase, Java",Mobile Dev,Pune,Yes
+A016,Sandhya R,sandhya.r@alumninetwork.org,2019,IT,QA Engineer,Cognizant,4,"Selenium, API Testing",Testing,Chennai,Yes
+A017,Vivek Yadav,vivek.yadav@alumninetwork.org,2016,CSE,Senior Data Scientist,Google,9,"Deep Learning, NLP",Data Science,Bengaluru,No
+A018,Meghana Rao,meghana.rao@alumninetwork.org,2021,CSE,Backend Developer,Zoho,2,"Java, Spring Boot",Backend Dev,Chennai,Yes
+A019,Farhan Ahmed,farhan.ahmed@alumninetwork.org,2018,CSE,Site Reliability Engineer,Cisco,5,"Linux, Monitoring, Python",SRE,Bengaluru,Yes
+A020,Shreya Gupta,shreya.gupta@alumninetwork.org,2022,CSE,Associate Data Engineer,Capgemini,1,"ETL, Python, SQL",Data Engineering,Noida,Yes
+A021,Varun Teja,varun.teja@alumninetwork.org,2019,IT,UI/UX Designer,Adobe,4,"Figma, UX Research",Design,Hyderabad,Yes
+A022,Ritu Sharma,ritu.sharma@alumninetwork.org,2017,CSE,Salesforce Developer,Cognizant,6,"Apex, Salesforce Admin",CRM Development,Pune,Yes
+A023,Gaurav Jain,gaurav.jain@alumninetwork.org,2018,CSE,Blockchain Developer,Polygon,5,"Solidity, Web3, Ethereum",Blockchain,Bengaluru,Yes
+A024,Nisha K,nisha.k@alumninetwork.org,2021,IT,RPA Developer,Infosys,2,"UiPath, Automation Anywhere",Automation,Kochi,Yes
+A025,Karthik Rao,karthik.rao@alumninetwork.org,2019,CSE,Game Developer,Ubisoft,4,"Unity, C#, Unreal",Game Dev,Pune,Yes
+A026,Sanjana D,sanjana.d@alumninetwork.org,2020,CSE,VR/AR Engineer,Meta,3,"Unity, Blender",XR Tech,Bengaluru,Yes
+A027,Rajesh Rao,rajesh.rao@alumninetwork.org,2016,CIVIL,BIM Engineer,L&T,8,"AutoCAD, Revit",Construction Tech,Chennai,No
+A028,Shalini Varma,shalini.varma@alumninetwork.org,2022,AI&DS,AI Research Intern,Nvidia,1,"NLP, Transformers",Research,Hyderabad,Yes
+A029,Pranav R,pranav.r@alumninetwork.org,2018,ECE,Robotics Engineer,ISRO,5,"ROS, Python, Sensors",Robotics,Ahmedabad,Yes
+A030,Jyoti Sharma,jyoti.sharma@alumninetwork.org,2017,CSE,IT Consultant,Accenture,6,"Business Analysis, SAP",Consulting,Mumbai,Yes
+A031,Manoj P,manoj.p@alumninetwork.org,2019,IT,CRM Tester,Wipro,4,"Testing, Selenium",QA,Chennai,Yes
+A032,Rakesh Kumar,rakesh.kumar@alumninetwork.org,2020,CSE,Python Developer,Zoho,3,"Python, Flask, APIs",Software Dev,Coimbatore,Yes
+A033,Neha S,neha.s@alumninetwork.org,2018,CSE,HR Tech Analyst,Google,5,"HR Analytics, ATS",HR Analytics,Bangalore,No
+A034,Shruti Jain,shruti.jain@alumninetwork.org,2021,IT,Content Analyst,Cognizant,2,"Content Writing, SEO",Digital Marketing,Delhi,Yes
+A035,Arun Baby,arun.baby@alumninetwork.org,2017,ECE,IoT Engineer,Siemens,6,"IoT, MQTT, Python",Internet of Things,Kochi,Yes
+A036,Roshni T,roshni.t@alumninetwork.org,2022,CSE,Junior Web Developer,TCS,1,"HTML, CSS, JS",Web Dev,Pune,Yes
+A037,Daniel Mathews,daniel.mathews@alumninetwork.org,2020,IT,Cloud Security Engineer,IBM,3,"AWS Security, IAM",Cyber Security,Bengaluru,Yes
+A038,Vivek Pandey,vivek.pandey@alumninetwork.org,2019,CSE,DevRel Engineer,GitHub,4,"API Docs, Community, DevOps",Developer Relations,Remote,No
+A039,Mahima S,mahima.s@alumninetwork.org,2018,CSE,Technical Writer,Microsoft,5,"API Writing, Docs",Writing,Hyderabad,Yes
+A040,Ajay Raj,ajay.raj@alumninetwork.org,2016,EEE,Network Engineer,Airtel,8,"Cisco, Routing, Switching",Networking,Delhi,Yes
+A041,Kavya M,kavya.m@alumninetwork.org,2021,CSE,Bioinformatics Engineer,Thermo Fisher,2,"Python, DNA Models",BioTech AI,Bengaluru,Yes
+A042,Tarun V,tarun.v@alumninetwork.org,2017,CSE,HPC Engineer,Intel,6,"CUDA, Parallel Computing",High-Perf Computing,Pune,No
+A043,Gayathri R,gayathri.r@alumninetwork.org,2020,IT,Cloud Analyst,Oracle,3,"OCI, Azure, Terraform",Cloud,Hyderabad,Yes
+A044,Harshitha,harshitha@alumninetwork.org,2019,CSE,Email Deliverability Engineer,Zoho,4,"SMTP, DNS, MailFlow",Email Infra,Chennai,Yes
+A045,Surya Narayan,surya.narayan@alumninetwork.org,2018,ECE,Automotive Engineer,Tesla,5,"Sensors, AI Driving",Autonomous Systems,California,No
+A046,Varsha Tej,varsha.tej@alumninetwork.org,2020,CSE,NLP Engineer,OpenAI,3,"Transformers, Python",NLP,Remote,Yes
+A047,Deepak Rao,deepak.rao@alumninetwork.org,2017,CSE,AI Ethics Analyst,Google Research,6,"Responsible AI, Policies",AI Ethics,Bengaluru,Yes
+A048,Arpita Sen,arpita.sen@alumninetwork.org,2022,CSE,IoT Programmer,Tata Elxsi,1,"Python, ESP32",IoT,Kolkata,Yes
+A049,Kevin Joseph,kevin.joseph@alumninetwork.org,2021,IT,Power BI Developer,HCL,2,"Power BI, SQL, ETL",Analytics,Kochi,Yes
+A050,Radhika Mehta,radhika.mehta@alumninetwork.org,2019,CSE,Big Data Analyst,Paytm,4,"Hadoop, Hive, Spark",Big Data,Delhi,Yes

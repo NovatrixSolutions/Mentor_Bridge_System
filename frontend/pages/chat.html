@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat | MentorBridge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .chat-body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: radial-gradient(circle at top left, #0d1225, #05060b);
+      color: #f5f5ff;
+      font-family: "Poppins", sans-serif;
+      padding: 20px;
+    }
+
+    .chat-wrapper {
+      width: 100%;
+      max-width: 1000px;
+      height: 700px;
+      background: rgba(10, 12, 30, 0.95);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7);
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      overflow: hidden;
+      backdrop-filter: blur(20px);
+    }
+
+    .chat-header {
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(15, 20, 40, 0.6);
+    }
+
+    .chat-header-left {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff7a7a, #ffcc70);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      font-weight: 700;
+      color: #111;
+      box-shadow: 0 8px 20px rgba(255, 122, 122, 0.3);
+    }
+
+    .alumni-info h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .chat-subtitle {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      color: #ffcc70;
+    }
+
+    .chat-header-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .ghost-btn-small {
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      color: #f5f5ff;
+      padding: 0.55rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .ghost-btn-small:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffcc70;
+      color: #ffcc70;
+      transform: translateY(-2px);
+    }
+
+    .danger-btn {
+      background: rgba(220, 38, 38, 0.15);
+      border: 1.5px solid rgba(220, 38, 38, 0.4);
+      color: #ef4444;
+      padding: 0.55rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .danger-btn:hover {
+      background: rgba(220, 38, 38, 0.25);
+      border-color: #ef4444;
+      transform: translateY(-2px);
+    }
+
+    .chat-main {
+      padding: 1.5rem;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: rgba(5, 6, 15, 0.4);
+    }
+
+    .chat-main::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .chat-main::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+
+    .chat-main::-webkit-scrollbar-thumb {
+      background: rgba(255, 204, 112, 0.3);
+      border-radius: 10px;
+    }
+
+    .chat-main::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 204, 112, 0.5);
+    }
+
+    .msg-row {
+      display: flex;
+      flex-direction: column;
+      max-width: 75%;
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .msg-row.user {
+      align-self: flex-end;
+      align-items: flex-end;
+    }
+
+    .msg-row.bot {
+      align-self: flex-start;
+      align-items: flex-start;
+    }
+
+    .msg-bubble {
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      word-wrap: break-word;
+      white-space: pre-wrap;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .msg-bubble.user {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+    }
+
+    .msg-bubble.bot {
+      background: rgba(15, 20, 40, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #e5e5ff;
+    }
+
+    .msg-meta {
+      font-size: 0.75rem;
+      opacity: 0.6;
+      margin-top: 4px;
+    }
+
+    .chat-input-row {
+      padding: 1rem 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      gap: 12px;
+      align-items: flex-end;
+      background: rgba(15, 20, 40, 0.6);
+    }
+
+    .chat-input-row textarea {
+      flex: 1;
+      resize: none;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      outline: none;
+      padding: 12px 16px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      min-height: 48px;
+      max-height: 120px;
+      background: rgba(10, 12, 30, 0.8);
+      color: #f5f5ff;
+      transition: border-color 0.3s ease;
+    }
+
+    .chat-input-row textarea:focus {
+      border-color: #ffcc70;
+    }
+
+    .chat-input-row textarea::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .send-btn {
+      padding: 12px 24px;
+      border-radius: 50px;
+      border: none;
+      cursor: pointer;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: inherit;
+      background: linear-gradient(135deg, #ff7a7a, #ffcc70);
+      color: #111;
+      box-shadow: 0 8px 20px rgba(255, 122, 122, 0.4);
+      transition: all 0.3s ease;
+      min-width: 80px;
+    }
+
+    .send-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(255, 122, 122, 0.5);
+    }
+
+    .send-btn:active {
+      transform: translateY(0);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .welcome-message {
+      text-align: center;
+      padding: 2rem;
+      opacity: 0.7;
+    }
+
+    .welcome-message h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.5rem;
+      color: #ffcc70;
+    }
+
+    .welcome-message p {
+      font-size: 0.9rem;
+      color: #d6d6ff;
+    }
+
+    /* Typing indicator */
+    .typing-indicator {
+      display: flex;
+      gap: 4px;
+      padding: 12px 16px;
+      background: rgba(15, 20, 40, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 16px;
+      width: fit-content;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: #ffcc70;
+      border-radius: 50%;
+      animation: typingDot 1.4s infinite;
+    }
+
+    .typing-dot:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+
+    .typing-dot:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+
+    @keyframes typingDot {
+      0%, 60%, 100% {
+        opacity: 0.3;
+        transform: translateY(0);
+      }
+      30% {
+        opacity: 1;
+        transform: translateY(-8px);
+      }
+    }
+  </style>
+</head>
+<body class="chat-body">
+  <div class="chat-wrapper">
+    <header class="chat-header">
+      <div class="chat-header-left">
+        <div class="avatar" id="alumniAvatar">M</div>
+        <div class="alumni-info">
+          <h3 id="alumniNameLabel">Mentor</h3>
+          <div class="chat-subtitle">💼 Alumni Mentor</div>
+        </div>
+      </div>
+      <div class="chat-header-right">
+        <button class="danger-btn" id="clearChatBtn">🗑️ Clear Chat</button>
+        <button class="ghost-btn-small" onclick="window.location.href='dashboard.html'">
+          ← Back
+        </button>
+      </div>
+    </header>
+
+    <main class="chat-main" id="chatMain">
+      <!-- Messages will appear here -->
+    </main>
+
+    <div class="chat-input-row">
+      <textarea 
+        id="chatInput" 
+        placeholder="Ask about career paths, skills, interviews, projects..."
+        rows="1"
+      ></textarea>
+      <button class="send-btn" id="sendBtn">Send 🚀</button>
+    </div>
+  </div>
+
+  <script>
+    // ---- BASIC CONTEXT (student + alumni) ----
+    const studentId = localStorage.getItem("student_id");
+    const alumniId = localStorage.getItem("chat_alumni_id");
+    const alumniName = localStorage.getItem("chat_alumni_name") || "Alumni Mentor";
+
+    if (!studentId || !alumniId) {
+      alert("Missing chat context. Returning to dashboard.");
+      window.location.href = "dashboard.html";
+    }
+
+    const nameLabel = document.getElementById("alumniNameLabel");
+    const avatar = document.getElementById("alumniAvatar");
+    const chatMain = document.getElementById("chatMain");
+    const chatInput = document.getElementById("chatInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    nameLabel.textContent = alumniName;
+    avatar.textContent = alumniName.charAt(0).toUpperCase();
+
+    // Auto-resize textarea
+    chatInput.addEventListener('input', function() {
+      this.style.height = 'auto';
+      this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+    });
+
+    // ---- UI HELPERS ----
+    function addMessage(text, who) {
+      const row = document.createElement("div");
+      row.className = "msg-row " + (who === "user" ? "user" : "bot");
+
+      const bubble = document.createElement("div");
+      bubble.className = "msg-bubble " + (who === "user" ? "user" : "bot");
+      bubble.textContent = text;
+
+      row.appendChild(bubble);
+      chatMain.appendChild(row);
+      chatMain.scrollTop = chatMain.scrollHeight;
+    }
+
+    function showTypingIndicator() {
+      const row = document.createElement("div");
+      row.className = "msg-row bot";
+      row.id = "typingIndicator";
+
+      const indicator = document.createElement("div");
+      indicator.className = "typing-indicator";
+      indicator.innerHTML = `
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      `;
+
+      row.appendChild(indicator);
+      chatMain.appendChild(row);
+      chatMain.scrollTop = chatMain.scrollHeight;
+    }
+
+    function removeTypingIndicator() {
+      const indicator = document.getElementById("typingIndicator");
+      if (indicator) indicator.remove();
+    }
+
+    // ---- LOAD HISTORY FROM BACKEND ----
+    async function loadHistory() {
+      try {
+        const resp = await fetch(
+          `http://127.0.0.1:8000/chat/history?student_id=${studentId}&alumni_id=${alumniId}`
+        );
+        const messages = await resp.json();
+        console.log("Chat history:", messages);
+
+        if (!Array.isArray(messages) || messages.length === 0) {
+          const welcome = document.createElement("div");
+          welcome.className = "welcome-message";
+          welcome.innerHTML = `
+            <h3>👋 Welcome to AI Mentor Chat!</h3>
+            <p>I'm here to help with career guidance, skill development, interviews, and more.</p>
+            <p style="margin-top: 8px; font-size: 0.85rem; opacity: 0.8;">Ask me anything to get started!</p>
+          `;
+          chatMain.appendChild(welcome);
+          return;
+        }
+
+        messages.forEach(msg => {
+          const who = msg.sender_type === "student" ? "user" : "bot";
+          addMessage(msg.content, who);
+        });
+      } catch (err) {
+        console.error("Error loading chat history:", err);
+        addMessage("⚠️ Couldn't load previous messages, but you can still start chatting!", "bot");
+      }
+    }
+
+    // ---- SEND MESSAGE ----
+    async function sendMessage() {
+      const text = chatInput.value.trim();
+      if (!text) return;
+
+      // Disable input while sending
+      chatInput.disabled = true;
+      sendBtn.disabled = true;
+
+      // Show user message immediately
+      addMessage(text, "user");
+      chatInput.value = "";
+      chatInput.style.height = 'auto';
+
+      // Show typing indicator
+      showTypingIndicator();
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/chat/send", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            student_id: parseInt(studentId),
+            alumni_id: parseInt(alumniId),
+            message: text
+          }),
+        });
+
+        const data = await response.json();
+        console.log("Chat response:", data);
+
+        removeTypingIndicator();
+        addMessage(data.reply || "I couldn't generate a response. Please try again.", "bot");
+      } catch (err) {
+        console.error("Chat error:", err);
+        removeTypingIndicator();
+        addMessage("❌ Error contacting AI mentor. Please check your connection and try again.", "bot");
+      } finally {
+        chatInput.disabled = false;
+        sendBtn.disabled = false;
+        chatInput.focus();
+      }
+    }
+
+    // ---- CLEAR CHAT ----
+    document.getElementById("clearChatBtn").addEventListener("click", async () => {
+      if (!confirm("⚠️ Are you sure? This will permanently delete all chat history with this mentor.")) return;
+
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/chat/clear?student_id=${studentId}&alumni_id=${alumniId}`,
+          { method: "DELETE" }
+        );
+
+        const result = await response.json();
+        console.log("Clear result:", result);
+
+        if (response.ok) {
+          chatMain.innerHTML = "";
+          const welcome = document.createElement("div");
+          welcome.className = "welcome-message";
+          welcome.innerHTML = `
+            <h3>✅ Chat Cleared!</h3>
+            <p>Start a fresh conversation with your mentor.</p>
+          `;
+          chatMain.appendChild(welcome);
+        } else {
+          alert("❌ Failed to clear chat. Please try again.");
+        }
+      } catch (error) {
+        console.error("Error clearing chat:", error);
+        alert("❌ Error clearing chat. Please check your connection.");
+      }
+    });
+
+    // ---- EVENT LISTENERS ----
+    sendBtn.addEventListener("click", sendMessage);
+
+    chatInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    });
+
+    // ---- INITIAL LOAD ----
+    loadHistory();
+  </script>
+</body>
+</html>

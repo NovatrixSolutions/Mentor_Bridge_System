@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Profile | MentorBridge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .profile-body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top left, #0d1225, #05060b);
+      min-height: 100vh;
+      color: #f5f5ff;
+      padding: 20px;
+    }
+
+    /* TOP NAV */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(11, 16, 32, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.6rem 1.2rem;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: 50px;
+      background: transparent;
+      color: #f5f5ff;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffcc70;
+      color: #ffcc70;
+      transform: translateX(-3px);
+    }
+
+    .profile-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding-top: 80px;
+    }
+
+    .profile-card {
+      width: 100%;
+      max-width: 650px;
+      padding: 2.5rem;
+      background: rgba(10, 12, 30, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7);
+    }
+
+    .profile-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .avatar-circle {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #ff7a7a, #ffcc70);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: #111;
+      margin: 0 auto 1rem;
+      box-shadow: 0 12px 30px rgba(255, 122, 122, 0.4);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .profile-card h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ff7a7a, #ffcc70);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .profile-subtitle {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      color: #d6d6ff;
+    }
+
+    .profile-form {
+      display: grid;
+      gap: 1.2rem;
+    }
+
+    .form-section {
+      background: rgba(15, 20, 40, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #ffcc70;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #d6d6ff;
+      margin-bottom: 0.4rem;
+      margin-left: 4px;
+    }
+
+    .profile-form input,
+    .profile-form textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(10, 12, 30, 0.8);
+      color: #f5f5ff;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .profile-form input:focus,
+    .profile-form textarea:focus {
+      border-color: #ffcc70;
+      background: rgba(10, 12, 30, 0.95);
+    }
+
+    .profile-form input:read-only {
+      background: rgba(255, 255, 255, 0.05);
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+
+    .profile-form input::placeholder,
+    .profile-form textarea::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .profile-form textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    .input-hint {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.5);
+      margin-top: 0.3rem;
+      margin-left: 4px;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 1.5rem;
+    }
+
+    .primary-btn {
+      flex: 1;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #ff7a7a, #ffcc70);
+      color: #111;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      box-shadow: 0 8px 20px rgba(255, 122, 122, 0.4);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(255, 122, 122, 0.5);
+    }
+
+    .primary-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .ghost-btn {
+      flex: 1;
+      padding: 14px 24px;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: 50px;
+      background: transparent;
+      color: #f5f5ff;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .ghost-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffcc70;
+      color: #ffcc70;
+      transform: translateY(-2px);
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-align: center;
+    }
+
+    .message.success {
+      background: rgba(22, 163, 74, 0.15);
+      border-color: rgba(22, 163, 74, 0.3);
+      color: #16a34a;
+    }
+
+    .message.error {
+      background: rgba(220, 38, 38, 0.15);
+      border-color: rgba(220, 38, 38, 0.3);
+      color: #ef4444;
+    }
+
+    .loading-state {
+      text-align: center;
+      padding: 3rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body class="profile-body">
+  <!-- TOP NAV -->
+  <nav class="top-nav">
+    <a href="dashboard.html" class="back-btn">
+      ← Back to Dashboard
+    </a>
+    <span style="font-size: 1rem; opacity: 0.9;">My Profile</span>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="profile-container">
+    <div class="profile-card">
+      <div class="profile-header">
+        <div class="avatar-circle" id="avatarCircle">?</div>
+        <h2 id="profileTitle">Your Profile</h2>
+        <p class="profile-subtitle">Update your details to get better recommendations</p>
+      </div>
+
+      <div id="loadingState" class="loading-state">
+        <p>Loading your profile...</p>
+      </div>
+
+      <form id="profileForm" class="profile-form" style="display: none;">
+        <!-- Basic Info Section -->
+        <div class="form-section">
+          <div class="section-title">📋 Basic Information</div>
+          
+          <div class="form-group">
+            <label class="form-label">Full Name</label>
+            <input type="text" id="name" readonly>
+            <p class="input-hint">Name cannot be changed</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email</label>
+            <input type="email" id="email" readonly>
+            <p class="input-hint">Email cannot be changed</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Department</label>
+            <input type="text" id="department" placeholder="CSE, ECE, IT, Mechanical">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Year of Study</label>
+            <input type="number" id="year" placeholder="1, 2, 3, or 4" min="1" max="4">
+          </div>
+        </div>
+
+        <!-- Skills & Interests Section -->
+        <div class="form-section">
+          <div class="section-title">🎯 Skills & Interests</div>
+          
+          <div class="form-group">
+            <label class="form-label">Skills (comma separated)</label>
+            <textarea id="skills" rows="3" placeholder="Python, Machine Learning, React, SQL, Data Analysis"></textarea>
+            <p class="input-hint">Add your technical skills to get better alumni matches</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Interests</label>
+            <textarea id="interests" rows="2" placeholder="AI, Web Development, Cloud Computing, Mobile Apps"></textarea>
+            <p class="input-hint">What areas are you passionate about?</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Career Goal</label>
+            <textarea id="career_goal" rows="2" placeholder="Software Engineer, Data Scientist, Product Manager"></textarea>
+            <p class="input-hint">What role do you aspire to achieve?</p>
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="ghost-btn" onclick="window.location.href='dashboard.html'">
+            Cancel
+          </button>
+          <button type="submit" class="primary-btn" id="saveBtn">
+            Save Changes 💾
+          </button>
+        </div>
+      </form>
+
+      <p id="profileMessage" class="message" style="display: none;"></p>
+    </div>
+  </div>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const studentId = urlParams.get('id') || localStorage.getItem('student_id');
+    const msgBox = document.getElementById('profileMessage');
+    const loadingState = document.getElementById('loadingState');
+    const profileForm = document.getElementById('profileForm');
+    const saveBtn = document.getElementById('saveBtn');
+    const avatarCircle = document.getElementById('avatarCircle');
+    const profileTitle = document.getElementById('profileTitle');
+
+    if (!studentId) {
+      alert('Please login first');
+      window.location.href = 'login.html';
+    }
+
+    // Load profile on page load
+    async function loadProfile() {
+      try {
+        const resp = await fetch(`http://127.0.0.1:8000/students/${studentId}`);
+        
+        if (!resp.ok) {
+          throw new Error('Failed to load profile');
+        }
+
+        const student = await resp.json();
+        
+        // Update avatar and title
+        avatarCircle.textContent = student.name.charAt(0).toUpperCase();
+        profileTitle.textContent = student.name;
+        
+        // Fill form
+        document.getElementById('name').value = student.name;
+        document.getElementById('email').value = student.email;
+        document.getElementById('department').value = student.department || '';
+        document.getElementById('year').value = student.year || '';
+        document.getElementById('skills').value = student.skills || '';
+        document.getElementById('interests').value = student.interests || '';
+        document.getElementById('career_goal').value = student.career_goal || '';
+
+        // Show form, hide loading
+        loadingState.style.display = 'none';
+        profileForm.style.display = 'grid';
+
+      } catch (err) {
+        console.error('Error loading profile:', err);
+        loadingState.innerHTML = '<p style="color: #ef4444;">❌ Error loading profile. Please try again.</p>';
+      }
+    }
+
+    // Save changes
+    profileForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Show loading state
+      saveBtn.disabled = true;
+      saveBtn.textContent = 'Saving...';
+      msgBox.style.display = 'block';
+      msgBox.className = 'message';
+      msgBox.textContent = '💾 Saving your changes...';
+
+      const updates = {
+        department: document.getElementById('department').value.trim(),
+        year: document.getElementById('year').value ? parseInt(document.getElementById('year').value) : null,
+        skills: document.getElementById('skills').value.trim(),
+        interests: document.getElementById('interests').value.trim(),
+        career_goal: document.getElementById('career_goal').value.trim()
+      };
+
+      try {
+        const resp = await fetch(`http://127.0.0.1:8000/students/${studentId}`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(updates)
+        });
+
+        if (resp.ok) {
+          const updated = await resp.json();
+          
+          msgBox.className = 'message success';
+          msgBox.textContent = '✅ Profile updated successfully!';
+          
+          // Update localStorage
+          localStorage.setItem('student_name', updated.name);
+
+          // Reset button after 2 seconds
+          setTimeout(() => {
+            saveBtn.disabled = false;
+            saveBtn.textContent = 'Save Changes 💾';
+            msgBox.style.display = 'none';
+          }, 2000);
+        } else {
+          const err = await resp.json();
+          throw new Error(err.detail || 'Failed to update');
+        }
+      } catch (err) {
+        console.error('Error updating profile:', err);
+        msgBox.className = 'message error';
+        msgBox.textContent = '❌ ' + (err.message || 'Cannot reach backend');
+        saveBtn.disabled = false;
+        saveBtn.textContent = 'Save Changes 💾';
+      }
+    });
+
+    // Load profile on page load
+    loadProfile();
+  </script>
+</body>
+</html>

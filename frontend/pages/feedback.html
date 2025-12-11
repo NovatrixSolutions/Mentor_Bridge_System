@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Give Feedback | MentorBridge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    .feedback-body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top left, #0d1225, #05060b);
+      min-height: 100vh;
+      color: #f5f5ff;
+      padding: 20px;
+    }
+
+    /* TOP NAVIGATION BAR */
+    .top-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(11, 16, 32, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .nav-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .back-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.6rem 1.2rem;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: 50px;
+      background: transparent;
+      color: #f5f5ff;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffcc70;
+      color: #ffcc70;
+      transform: translateX(-3px);
+    }
+
+    .nav-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      opacity: 0.9;
+    }
+
+    /* MAIN CONTENT */
+    .feedback-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding-top: 80px;
+    }
+
+    .feedback-card {
+      width: 100%;
+      max-width: 550px;
+      padding: 2.5rem;
+      background: rgba(10, 12, 30, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 24px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 25px 80px rgba(0, 0, 0, 0.7);
+      text-align: center;
+    }
+
+    .feedback-header {
+      margin-bottom: 1.5rem;
+    }
+
+    .feedback-header h2 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(135deg, #ff7a7a, #ffcc70);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .feedback-subtitle {
+      font-size: 0.95rem;
+      opacity: 0.85;
+      color: #d6d6ff;
+      line-height: 1.5;
+    }
+
+    .alumni-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      margin: 1rem 0;
+      padding: 0.6rem 1.2rem;
+      background: rgba(255, 204, 112, 0.15);
+      border: 1px solid rgba(255, 204, 112, 0.3);
+      border-radius: 50px;
+      color: #ffcc70;
+      font-size: 0.9rem;
+      font-weight: 500;
+    }
+
+    .feedback-form {
+      margin-top: 2rem;
+      text-align: left;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #d6d6ff;
+    }
+
+    .star-rating {
+      display: flex;
+      gap: 8px;
+      justify-content: center;
+      margin: 1rem 0;
+    }
+
+    .star {
+      font-size: 2.5rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .star:hover,
+    .star.active {
+      color: #ffcc70;
+      transform: scale(1.1);
+    }
+
+    .rating-text {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #ffcc70;
+      margin-top: 0.5rem;
+      min-height: 24px;
+      font-weight: 500;
+    }
+
+    .feedback-form textarea {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(15, 20, 40, 0.8);
+      color: #f5f5ff;
+      font-size: 0.95rem;
+      font-family: inherit;
+      outline: none;
+      resize: vertical;
+      min-height: 120px;
+      transition: border 0.3s;
+    }
+
+    .feedback-form textarea:focus {
+      border-color: #ffcc70;
+    }
+
+    .feedback-form textarea::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 1.5rem;
+    }
+
+    .primary-btn {
+      flex: 1;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #ff7a7a, #ffcc70);
+      color: #111;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+      box-shadow: 0 8px 20px rgba(255, 122, 122, 0.4);
+    }
+
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 25px rgba(255, 122, 122, 0.5);
+    }
+
+    .primary-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .ghost-btn {
+      flex: 1;
+      padding: 14px 24px;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      border-radius: 50px;
+      background: transparent;
+      color: #f5f5ff;
+      font-size: 1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .ghost-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffcc70;
+      color: #ffcc70;
+      transform: translateY(-2px);
+    }
+
+    .message {
+      margin-top: 1.5rem;
+      font-size: 0.9rem;
+      font-weight: 500;
+      padding: 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .message.success {
+      background: rgba(22, 163, 74, 0.15);
+      border-color: rgba(22, 163, 74, 0.3);
+      color: #16a34a;
+    }
+
+    .message.error {
+      background: rgba(220, 38, 38, 0.15);
+      border-color: rgba(220, 38, 38, 0.3);
+      color: #ef4444;
+    }
+
+    .message.warning {
+      background: rgba(251, 191, 36, 0.15);
+      border-color: rgba(251, 191, 36, 0.3);
+      color: #fbbf24;
+    }
+
+    .emoji-header {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      animation: bounce 2s infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+  </style>
+</head>
+<body class="feedback-body">
+  <!-- TOP NAVIGATION -->
+  <nav class="top-nav">
+    <div class="nav-left">
+      <a href="dashboard.html" class="back-btn">
+        ← Back to Dashboard
+      </a>
+      <span class="nav-title">Submit Feedback</span>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="feedback-container">
+    <div class="feedback-card">
+      <div class="feedback-header">
+        <div class="emoji-header">⭐</div>
+        <h2>Mentorship Feedback</h2>
+        <p class="feedback-subtitle" id="feedbackSubtitle">
+          Share your experience and help improve our recommendations
+        </p>
+        <div class="alumni-badge" id="alumniNameBadge" style="display: none;">
+          <span>💼</span>
+          <span id="alumniNameDisplay"></span>
+        </div>
+      </div>
+
+      <form id="feedbackForm" class="feedback-form">
+        <div class="form-group">
+          <label class="form-label">Rate Your Experience</label>
+          <div class="star-rating" id="starRating">
+            <span class="star" data-rating="1">★</span>
+            <span class="star" data-rating="2">★</span>
+            <span class="star" data-rating="3">★</span>
+            <span class="star" data-rating="4">★</span>
+            <span class="star" data-rating="5">★</span>
+          </div>
+          <div class="rating-text" id="ratingText"></div>
+          <input type="hidden" id="rating" required>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="comment">Additional Comments (Optional)</label>
+          <textarea 
+            id="comment" 
+            placeholder="Share more details about your experience, what was helpful, areas of improvement..."
+            rows="5"
+          ></textarea>
+        </div>
+
+        <div class="btn-group">
+          <button type="button" class="ghost-btn" onclick="window.location.href='dashboard.html'">
+            Cancel
+          </button>
+          <button type="submit" class="primary-btn" id="submitBtn">
+            Submit Feedback 🚀
+          </button>
+        </div>
+      </form>
+
+      <p id="feedbackMessage" class="message" style="display: none;"></p>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const studentId = localStorage.getItem("student_id");
+      const alumniId = localStorage.getItem("feedback_alumni_id");
+      const alumniName = localStorage.getItem("feedback_alumni_name");
+
+      console.log("Feedback page IDs:", studentId, alumniId, alumniName);
+
+      const subtitle = document.getElementById("feedbackSubtitle");
+      const alumniNameBadge = document.getElementById("alumniNameBadge");
+      const alumniNameDisplay = document.getElementById("alumniNameDisplay");
+      const form = document.getElementById("feedbackForm");
+      const messageBox = document.getElementById("feedbackMessage");
+      const ratingInput = document.getElementById("rating");
+      const ratingText = document.getElementById("ratingText");
+      const submitBtn = document.getElementById("submitBtn");
+
+      // 1️⃣ If no student -> force login
+      if (!studentId) {
+        alert("Please login first.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      // 2️⃣ If alumni missing -> show info
+      if (!alumniId) {
+        subtitle.textContent = "No alumni selected. Please go back to dashboard and choose an alumni.";
+        form.style.display = "none";
+        messageBox.style.display = "block";
+        messageBox.className = "message warning";
+        messageBox.textContent = "📋 Return to dashboard and click 'Feedback' on an alumni card.";
+        return;
+      }
+
+      // Show alumni name
+      if (alumniName) {
+        alumniNameBadge.style.display = "inline-flex";
+        alumniNameDisplay.textContent = alumniName;
+        subtitle.textContent = "How was your mentorship experience?";
+      }
+
+      // Star rating interaction
+      const stars = document.querySelectorAll(".star");
+      const ratingLabels = {
+        1: "⭐ Poor",
+        2: "⭐⭐ Fair",
+        3: "⭐⭐⭐ Good",
+        4: "⭐⭐⭐⭐ Very Good",
+        5: "⭐⭐⭐⭐⭐ Excellent!"
+      };
+
+      let selectedRating = 0;
+
+      stars.forEach(star => {
+        star.addEventListener("click", function() {
+          selectedRating = parseInt(this.dataset.rating);
+          ratingInput.value = selectedRating;
+          ratingText.textContent = ratingLabels[selectedRating];
+          
+          // Update star colors
+          stars.forEach((s, index) => {
+            if (index < selectedRating) {
+              s.classList.add("active");
+            } else {
+              s.classList.remove("active");
+            }
+          });
+        });
+
+        // Hover effect
+        star.addEventListener("mouseenter", function() {
+          const hoverRating = parseInt(this.dataset.rating);
+          stars.forEach((s, index) => {
+            if (index < hoverRating) {
+              s.style.color = "#ffcc70";
+            } else {
+              s.style.color = "rgba(255, 255, 255, 0.2)";
+            }
+          });
+        });
+
+        star.addEventListener("mouseleave", function() {
+          stars.forEach((s, index) => {
+            if (index < selectedRating) {
+              s.style.color = "#ffcc70";
+            } else {
+              s.style.color = "rgba(255, 255, 255, 0.2)";
+            }
+          });
+        });
+      });
+
+      // 3️⃣ Handle submit
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+
+        const ratingValue = ratingInput.value;
+        const comment = document.getElementById("comment").value.trim();
+
+        if (!ratingValue) {
+          messageBox.style.display = "block";
+          messageBox.className = "message warning";
+          messageBox.textContent = "⚠️ Please select a rating by clicking the stars above.";
+          return;
+        }
+
+        const rating = parseFloat(ratingValue);
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Submitting...";
+        messageBox.style.display = "block";
+        messageBox.className = "message";
+        messageBox.textContent = "📤 Submitting your feedback...";
+
+        try {
+          const response = await fetch("http://127.0.0.1:8000/feedback/", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              student_id: parseInt(studentId),
+              alumni_id: parseInt(alumniId),
+              rating: rating,
+              comment: comment
+            }),
+          });
+
+          const result = await response.json();
+          console.log("Feedback result:", response.status, result);
+
+          if (response.status === 200) {
+            messageBox.className = "message success";
+            messageBox.textContent = "✅ Thank you! Your feedback has been recorded successfully.";
+
+            // Clear stored alumni feedback context
+            localStorage.removeItem("feedback_alumni_id");
+            localStorage.removeItem("feedback_alumni_name");
+
+            // Redirect after 2 seconds
+            setTimeout(function () {
+              window.location.href = "dashboard.html";
+            }, 2000);
+          } else {
+            throw new Error(result.detail || "Failed to submit feedback");
+          }
+        } catch (err) {
+          console.error("Error submitting feedback:", err);
+          messageBox.className = "message error";
+          messageBox.textContent = "❌ " + (err.message || "Cannot reach backend. Please check if FastAPI is running.");
+          submitBtn.disabled = false;
+          submitBtn.textContent = "Submit Feedback 🚀";
+        }
+      });
+    });
+  </script>
+</body>
+</html>

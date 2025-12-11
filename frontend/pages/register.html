@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Register | MentorBridge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles.css" />
+  <style>
+    /* Emergency inline styles */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body.auth-body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle, #0d1225, #05060b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #f5f5ff;
+      padding: 20px;
+    }
+    
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+      padding: 40px 30px;
+      background: rgba(10, 12, 30, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      text-align: center;
+    }
+    
+    .auth-card h2 {
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    
+    .auth-subtext {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 25px;
+    }
+    
+    .auth-card input,
+    .auth-card textarea {
+      width: 100%;
+      margin: 10px 0;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(15, 20, 40, 0.8);
+      color: #f5f5ff;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: border 0.3s;
+      resize: vertical;
+    }
+    
+    .auth-card input:focus,
+    .auth-card textarea:focus {
+      border-color: #ffcc70;
+    }
+    
+    .auth-card textarea {
+      min-height: 80px;
+    }
+    
+    .primary-btn {
+      width: 100%;
+      padding: 14px;
+      margin-top: 15px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #ff7a7a, #ffcc70);
+      color: #111;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .primary-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(255, 122, 122, 0.4);
+    }
+    
+    .auth-footer {
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    
+    .auth-footer a {
+      color: #ffcc70;
+      text-decoration: none;
+      transition: opacity 0.3s;
+    }
+    
+    .auth-footer a:hover {
+      opacity: 0.8;
+    }
+    
+    .message {
+      margin-top: 15px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+  </style>
+</head>
+
+<body class="auth-body">
+  <div class="auth-card">
+    <h2>Create Your Account ✨</h2>
+    <p class="auth-subtext">Join MentorBridge and connect with alumni!</p>
+
+    <form id="registerForm">
+      <input id="name" type="text" placeholder="Full Name" required />
+      <input id="email" type="email" placeholder="Email Address" required />
+      <input id="password" type="password" placeholder="Create Password" required />
+      <input id="confirmPassword" type="password" placeholder="Confirm Password" required />
+      <textarea id="skills" rows="3" placeholder="Your Skills (Comma separated e.g., Python, ML, SQL)"></textarea>
+      <button type="submit" class="primary-btn">Register</button>
+    </form>
+
+    <p class="auth-footer">
+      Already have an account? <a href="login.html">Login</a>
+    </p>
+
+    <p id="message" class="message"></p>
+  </div>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("password").value.trim();
+      const confirmPassword = document.getElementById("confirmPassword").value.trim();
+      const skills = document.getElementById("skills").value.trim();
+
+      const messageEl = document.getElementById("message");
+
+      // Validate password
+      if (password !== confirmPassword) {
+        messageEl.textContent = "❌ Passwords do not match!";
+        messageEl.style.color = "red";
+        return;
+      }
+
+      if (password.length < 6) {
+        messageEl.textContent = "❌ Password must be at least 6 characters!";
+        messageEl.style.color = "red";
+        return;
+      }
+
+      messageEl.textContent = "Registering...";
+      messageEl.style.color = "#ffffffc0";
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/students/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            email,
+            password: password,
+            skills
+          }),
+        });
+
+        const result = await response.json();
+        console.log("Register response:", response.status, result);
+
+        if (response.status === 200 || response.status === 201) {
+          messageEl.textContent = "🎉 Registration successful! Redirecting to login...";
+          messageEl.style.color = "lightgreen";
+
+          setTimeout(() => {
+            window.location.href = "login.html";
+          }, 1200);
+        } else {
+          messageEl.textContent = result.detail || "Registration failed ❌";
+          messageEl.style.color = "red";
+        }
+
+      } catch (err) {
+        console.error("Error during registration:", err);
+        messageEl.textContent = "⚠ Cannot connect to backend.";
+        messageEl.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

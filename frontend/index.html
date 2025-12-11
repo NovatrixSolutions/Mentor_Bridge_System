@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>MentorBridge – Student Alumni Connect</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="page-wrapper">
+    <!-- NAVBAR -->
+    <header class="navbar">
+      <div class="logo">
+        <span class="logo-mark">MB</span>
+        <span class="logo-text">MentorBridge</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#how-it-works">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#app-section">Get Started</a>
+        <!-- Auth buttons inline -->
+        <a href="./pages/login.html" id="loginLink">Login</a>
+        <button id="profileBtn" class="ghost-btn small" style="display: none;" onclick="showProfile()">
+          Profile
+        </button>
+        <button id="logoutBtn" class="ghost-btn small" style="display: none;" onclick="logout()">
+          Logout
+        </button>
+      </nav>
+    </header>
+
+    <!-- HERO SECTION -->
+    <main class="hero">
+      <div class="hero-content">
+        <p class="hero-pill">AI-Powered Alumni Recommendation</p>
+        <h1>
+          Connect students with the<br />
+          <span class="highlight">perfect alumni mentors.</span>
+        </h1>
+        <p class="hero-tagline">
+          Hey future developer 👋<br />
+          Build your career with guidance from people who've already done it.
+        </p>
+
+        <div class="hero-actions">
+          <button id="enterPortalBtn" class="primary-btn">
+            Enter Portal
+          </button>
+          <button class="ghost-btn" onclick="document.getElementById('features').scrollIntoView({ behavior: 'smooth' })">
+            View features
+          </button>
+        </div>
+
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-number">50+</span>
+            <span class="stat-label">Alumni Profiles</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">Smart</span>
+            <span class="stat-label">AI Matching</span>
+          </div>
+          <div class="stat">
+            <span class="stat-number">Realtime</span>
+            <span class="stat-label">Student Input</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <h2>Why MentorBridge?</h2>
+        <p>
+          Our system uses AI to analyze your skills, interests, and goals, then pairs you
+          with the most relevant alumni for mentorship, career advice, and referrals.
+        </p>
+        <ul class="hero-bullets">
+          <li>🎯 Personalized alumni recommendations</li>
+          <li>🤝 Strong student–alumni connections</li>
+          <li>📈 Feedback-driven intelligent learning</li>
+        </ul>
+      </div>
+    </main>
+
+    <!-- HOW IT WORKS SECTION -->
+    <section id="how-it-works" class="section">
+      <h2>How it works</h2>
+      <div class="steps">
+        <div class="step-card">
+          <span class="step-number">1</span>
+          <h3>Student signs up</h3>
+          <p>Students enter their skills, interests, and career goals into the portal.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">2</span>
+          <h3>AI recommends alumni</h3>
+          <p>Backend analyzes the profile and recommends the best-matching alumni.</p>
+        </div>
+        <div class="step-card">
+          <span class="step-number">3</span>
+          <h3>Mentorship & feedback</h3>
+          <p>Students connect, interact, and give feedback which improves the model.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FEATURES SECTION -->
+    <section id="features" class="section">
+      <h2>Platform Highlights</h2>
+      <div class="features-grid">
+        <div class="feature-card">
+          <h3>Skill-based Matching</h3>
+          <p>Matches are based on skills, domains, and real alumni experience fields.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Real-time Student Profiles</h3>
+          <p>No static student dataset – every student enters their details live.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Feedback-Aware Engine</h3>
+          <p>Ratings from students are converted into rewards for the RL model.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Future: Double DQN</h3>
+          <p>Next phase upgrades the recommender with Deep Q-Learning for smarter matching.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- APP SECTION -->
+    <section id="app-section" class="section app-section">
+      <h2>Welcome to the MentorBridge Portal</h2>
+      <p class="app-subtitle">
+        This is where your actual application screens (Register, Login, Get Recommendations) will come.
+      </p>
+      <div class="app-placeholder">
+        <p>🔧 Backend is already built in FastAPI.</p>
+        <p>🧠 This frontend will connect to those APIs next.</p>
+        <p>🚀 You are ready to integrate student signup and alumni recommendations here.</p>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© 2025 MentorBridge · Student–Alumni Engagement Platform</span>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

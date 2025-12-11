@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login | MentorBridge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles.css">
+  <style>
+    /* Emergency inline styles if CSS fails to load */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body.auth-body {
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle, #0d1225, #05060b);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #f5f5ff;
+    }
+    
+    .auth-card {
+      width: 100%;
+      max-width: 400px;
+      padding: 40px 30px;
+      background: rgba(10, 12, 30, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      text-align: center;
+    }
+    
+    .auth-card h2 {
+      margin-bottom: 10px;
+      font-size: 28px;
+    }
+    
+    .auth-subtext {
+      font-size: 14px;
+      opacity: 0.8;
+      margin-bottom: 30px;
+    }
+    
+    .auth-card input {
+      width: 100%;
+      margin: 12px 0;
+      padding: 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(15, 20, 40, 0.8);
+      color: #f5f5ff;
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: border 0.3s;
+    }
+    
+    .auth-card input:focus {
+      border-color: #ffcc70;
+    }
+    
+    .primary-btn {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #ff7a7a, #ffcc70);
+      color: #111;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    
+    .primary-btn:hover {
+      transform: translateY(-2px);
+    }
+    
+    .auth-footer {
+      margin-top: 20px;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    
+    .auth-footer a {
+      color: #ffcc70;
+      text-decoration: none;
+    }
+    
+    .message {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body class="auth-body">
+  <div class="auth-card">
+    <h2>Welcome Back 👋</h2>
+    <p class="auth-subtext">Login to continue your mentorship journey.</p>
+
+    <form id="loginForm">
+      <input type="email" id="email" placeholder="Email" required>
+      <input type="password" id="password" placeholder="Password" required>
+      <button type="submit" class="primary-btn">Login</button>
+    </form>
+
+    <p class="auth-footer">
+      New here? <a href="register.html">Create an account</a><br><br>
+      Are you an alumni? <a href="alumini_register.html">Register as alumni</a><br><br>
+      Back to Home <a href="../index.html">Home</a>
+    </p>
+
+    <p id="loginMessage" class="message"></p>
+  </div>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+      const messageBox = document.getElementById("loginMessage");
+      messageBox.textContent = "Checking credentials...";
+      messageBox.style.color = "#ffffffb0";
+
+      try {
+        const response = await fetch("http://127.0.0.1:8000/students/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email, password }),
+        });
+
+        const result = await response.json();
+        console.log("Login response:", response.status, result);
+
+        if (response.status === 200) {
+          messageBox.textContent = "Login successful ✔";
+          messageBox.style.color = "lightgreen";
+
+          localStorage.setItem("student_id", result.id);
+          localStorage.setItem("student_name", result.name);
+          localStorage.setItem("student", JSON.stringify(result));
+
+          setTimeout(() => {
+            window.location.href = "dashboard.html";
+          }, 800);
+        } else {
+          messageBox.textContent = result.detail || "Login failed ❌";
+          messageBox.style.color = "red";
+        }
+      } catch (err) {
+        console.error("Error while logging in:", err);
+        messageBox.textContent = "Cannot reach backend. Is FastAPI running?";
+        messageBox.style.color = "red";
+      }
+    });
+  </script>
+</body>
+</html>

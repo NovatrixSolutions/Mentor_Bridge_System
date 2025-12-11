@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard | MentorBridge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* Dashboard-specific styles */
+    .dashboard-body {
+      background: radial-gradient(circle at top left, #0d1225, #05060b);
+      min-height: 100vh;
+      color: #f5f5ff;
+      font-family: "Poppins", sans-serif;
+    }
+
+    .dash-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(11, 16, 32, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .dash-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+
+    .dash-left:hover {
+      opacity: 0.8;
+    }
+
+    .logo-mark {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, #ff7a7a, #ffcc70);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #111;
+      box-shadow: 0 8px 20px rgba(255, 122, 122, 0.4);
+    }
+
+    .logo-text {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #f5f5ff;
+    }
+
+    .dash-right {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .student-name {
+      font-size: 1rem;
+      font-weight: 500;
+      color: #d6d6ff;
+      cursor: pointer;
+      transition: color 0.3s ease;
+    }
+
+    .student-name:hover {
+      color: #ffcc70;
+    }
+
+    .profile-btn {
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      color: #f5f5ff;
+      padding: 0.65rem 1.5rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .profile-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffcc70;
+      color: #ffcc70;
+      transform: translateY(-2px);
+    }
+
+    .home-btn {
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      color: #f5f5ff;
+      padding: 0.65rem 1.5rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .home-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffcc70;
+      color: #ffcc70;
+      transform: translateY(-2px);
+    }
+
+    .logout-btn {
+      background: rgba(255, 122, 122, 0.15);
+      border: 1.5px solid rgba(255, 122, 122, 0.4);
+      color: #ff7a7a;
+      padding: 0.65rem 1.5rem;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255, 122, 122, 0.3);
+      border-color: #ff7a7a;
+      transform: translateY(-2px);
+    }
+
+    .dashboard-wrapper {
+      padding-top: 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .dash-main {
+      padding: 2rem 0;
+    }
+
+    /* MY CONNECTIONS SECTION */
+    .dash-connections-card {
+      background: rgba(10, 12, 30, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    .dash-connections-card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .connections-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin: 1rem 0 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      padding: 0.6rem 1.2rem;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      background: transparent;
+      color: #d6d6ff;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+    }
+
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffcc70;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(135deg, #ff7a7a, #ffcc70);
+      color: #111;
+      border-color: transparent;
+      font-weight: 600;
+    }
+
+    .connections-list {
+      display: grid;
+      gap: 1rem;
+      max-height: 400px;
+      overflow-y: auto;
+      padding-right: 8px;
+    }
+
+    .connections-list::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    .connections-list::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+    }
+
+    .connections-list::-webkit-scrollbar-thumb {
+      background: rgba(255, 204, 112, 0.3);
+      border-radius: 10px;
+    }
+
+    .connection-item {
+      background: rgba(15, 20, 40, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 1.2rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .connection-item:hover {
+      border-color: rgba(255, 204, 112, 0.3);
+      transform: translateX(5px);
+    }
+
+    .connection-info h4 {
+      margin: 0 0 0.4rem 0;
+      font-size: 1.15rem;
+    }
+
+    .connection-info p {
+      margin: 0.2rem 0;
+      font-size: 0.85rem;
+      color: #b8b8d6;
+    }
+
+    .connection-meta {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .loading-text, .empty-state {
+      text-align: center;
+      color: #9999bb;
+      padding: 2rem;
+      font-size: 0.95rem;
+    }
+
+    /* HERO CARD */
+    .dash-hero-card {
+      background: rgba(10, 12, 30, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 20px;
+      padding: 2.5rem;
+      margin-bottom: 3rem;
+      backdrop-filter: blur(20px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+
+    .dash-hero-card h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .dash-hero-card p {
+      color: #d6d6ff;
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+
+    .primary-btn.big {
+      padding: 1.1rem 2.5rem;
+      font-size: 1.05rem;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #ff7a7a, #ffcc70);
+      color: #111;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 30px rgba(255, 122, 122, 0.4);
+      font-family: inherit;
+    }
+
+    .primary-btn.big:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(255, 122, 122, 0.5);
+    }
+
+    .primary-btn.big:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .message {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      font-weight: 500;
+    }
+
+    .dash-recs {
+      margin-top: 2rem;
+    }
+
+    .dash-recs h3 {
+      font-size: 1.8rem;
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    .recs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .alumni-card {
+      background: rgba(10, 12, 30, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 1.5rem;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(20px);
+    }
+
+    .alumni-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(255, 204, 112, 0.4);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .card-header h4 {
+      font-size: 1.25rem;
+      margin: 0;
+    }
+
+    .badge {
+      background: linear-gradient(135deg, #ff7a7a, #ffcc70);
+      color: #111;
+      padding: 0.4rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+    }
+
+    .alumni-card .role {
+      font-size: 0.95rem;
+      color: #ffcc70;
+      margin: 0.5rem 0;
+    }
+
+    .alumni-card .domain,
+    .alumni-card .skills {
+      font-size: 0.9rem;
+      color: #d6d6ff;
+      margin: 0.5rem 0;
+    }
+
+    .alumni-card .reason {
+      font-size: 0.88rem;
+      color: #b8b8d6;
+      margin: 0.75rem 0;
+      font-style: italic;
+    }
+
+    .alumni-card .meta {
+      font-size: 0.85rem;
+      color: #9999bb;
+      margin-top: 0.75rem;
+    }
+
+    .ghost-btn.small {
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.25);
+      color: #f5f5ff;
+      padding: 0.55rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .ghost-btn.small:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: #ffcc70;
+      color: #ffcc70;
+    }
+
+    .primary-btn.small {
+      background: linear-gradient(135deg, #ff7a7a, #ffcc70);
+      color: #111;
+      border: none;
+      padding: 0.55rem 1rem;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: inherit;
+    }
+
+    .primary-btn.small:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(255, 122, 122, 0.4);
+    }
+
+    .status-badge {
+      padding: 0.4rem 0.8rem;
+      border-radius: 15px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .status-pending {
+      background: rgba(251, 191, 36, 0.2);
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.3);
+    }
+
+    .status-accepted {
+      background: rgba(22, 163, 74, 0.2);
+      color: #16a34a;
+      border: 1px solid rgba(22, 163, 74, 0.3);
+    }
+
+    .status-rejected {
+      background: rgba(220, 38, 38, 0.2);
+      color: #dc2626;
+      border: 1px solid rgba(220, 38, 38, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .dash-header {
+        padding: 1rem;
+      }
+
+      .dash-right {
+        gap: 0.5rem;
+      }
+
+      .student-name {
+        display: none;
+      }
+
+      .recs-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body class="dashboard-body">
+  <!-- TOP BAR -->
+  <header class="dash-header">
+    <div class="dash-left" onclick="window.location.href='../index.html'" title="Go to Home">
+      <span class="logo-mark">MB</span>
+      <span class="logo-text">MentorBridge</span>
+    </div>
+    <div class="dash-right">
+      <span id="studentNameLabel" class="student-name" onclick="goToProfile()" title="View Profile">Hi, Student 👋</span>
+      <button class="profile-btn" onclick="goToProfile()">👤 Profile</button>
+      <button class="home-btn" onclick="window.location.href='../index.html'">🏠 Home</button>
+      <button id="logoutBtn" class="logout-btn">Logout</button>
+    </div>
+  </header>
+
+  <div class="dashboard-wrapper">
+    <!-- MAIN CONTENT -->
+    <main class="dash-main">
+      <!-- MY CONNECTIONS SECTION -->
+      <section class="dash-connections-card">
+        <h2>📋 My Connection Requests</h2>
+        <p style="margin-bottom: 0.5rem; color: #d6d6ff; font-size: 0.95rem;">Track all your sent connection requests and their status</p>
+        
+        <div class="connections-tabs">
+          <button class="tab-btn active" data-filter="all">All</button>
+          <button class="tab-btn" data-filter="Pending">Pending</button>
+          <button class="tab-btn" data-filter="Accepted">Accepted</button>
+          <button class="tab-btn" data-filter="Rejected">Rejected</button>
+        </div>
+
+        <div id="connectionsContainer" class="connections-list">
+          <p class="loading-text">Loading your connections...</p>
+        </div>
+      </section>
+
+      <!-- RECOMMENDATIONS SECTION -->
+      <section class="dash-hero-card">
+        <h2>Welcome to your mentor space ✨</h2>
+        <p>
+          Based on your skills and interests, we'll recommend the best alumni for you.
+          Click the button below to fetch recommendations from the AI-powered backend.
+        </p>
+        <button id="getRecsBtn" class="primary-btn big">
+          Get Alumni Recommendations 🚀
+        </button>
+        <p id="statusMessage" class="message"></p>
+      </section>
+
+      <section class="dash-recs">
+        <h3>Recommended Alumni</h3>
+        <div id="recsContainer" class="recs-grid">
+          <!-- Cards will be injected here -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // -----------------------------
+    // BASIC STUDENT + LOGOUT LOGIC
+    // -----------------------------
+    const studentId = localStorage.getItem("student_id");
+    const studentName = localStorage.getItem("student_name");
+
+    const nameLabel = document.getElementById("studentNameLabel");
+    if (studentName) {
+      nameLabel.textContent = `Hi, ${studentName} 👋`;
+    }
+
+    if (!studentId) {
+      alert("Please login first.");
+      window.location.href = "login.html";
+    }
+
+    // Profile navigation
+    function goToProfile() {
+      window.location.href = `profile.html?id=${studentId}`;
+    }
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      if (confirm("Are you sure you want to logout?")) {
+        localStorage.clear();
+        window.location.href = "../index.html";
+      }
+    });
+
+    // -----------------------------
+    // LOAD MY CONNECTIONS
+    // -----------------------------
+    async function loadMyConnections() {
+      const connectionsContainer = document.getElementById("connectionsContainer");
+      
+      try {
+        const resp = await fetch(`http://127.0.0.1:8000/connect/student/${studentId}`);
+        
+        if (!resp.ok) {
+          throw new Error('Failed to load connections');
+        }
+
+        const connections = await resp.json();
+        console.log("My connections:", connections);
+
+        if (!Array.isArray(connections) || connections.length === 0) {
+          connectionsContainer.innerHTML = '<p class="empty-state">📭 No connection requests yet. Start by clicking Connect on recommended alumni below!</p>';
+          return;
+        }
+
+        // Store for filtering
+        window.allConnections = connections;
+        renderConnections(connections);
+
+      } catch (err) {
+        console.error("Error loading connections:", err);
+        connectionsContainer.innerHTML = '<p class="empty-state" style="color: #ff7a7a;">⚠️ Error loading connections. Please check if backend is running.</p>';
+      }
+    }
+
+    function renderConnections(connections) {
+      const connectionsContainer = document.getElementById("connectionsContainer");
+      
+      if (connections.length === 0) {
+        connectionsContainer.innerHTML = '<p class="empty-state">No matching connections for this filter</p>';
+        return;
+      }
+
+      connectionsContainer.innerHTML = connections.map(conn => `
+        <div class="connection-item" data-status="${conn.status}">
+          <div class="connection-info">
+            <h4>Alumni ID: ${conn.alumni_id}</h4>
+            <p>📅 Requested: ${new Date(conn.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</p>
+            ${conn.updated_at && conn.status !== 'Pending' ? `<p>🔄 Updated: ${new Date(conn.updated_at).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</p>` : ''}
+          </div>
+          <div class="connection-meta">
+            <span class="status-badge status-${conn.status.toLowerCase()}">${conn.status}</span>
+            ${conn.status === 'Accepted' ? `<button class="ghost-btn small" onclick="openChat(${conn.alumni_id}, 'Alumni ${conn.alumni_id}')">💬 Chat</button>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Filter tabs
+    document.addEventListener('click', (e) => {
+      if (e.target.classList.contains('tab-btn')) {
+        // Update active tab
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        e.target.classList.add('active');
+
+        const filter = e.target.dataset.filter;
+        
+        if (filter === 'all') {
+          renderConnections(window.allConnections || []);
+        } else {
+          const filtered = (window.allConnections || []).filter(c => c.status === filter);
+          renderConnections(filtered);
+        }
+      }
+    });
+
+    function openChat(alumniId, alumniName) {
+      localStorage.setItem("chat_alumni_id", alumniId);
+      localStorage.setItem("chat_alumni_name", alumniName || `Alumni ${alumniId}`);
+      window.location.href = "chat.html";
+    }
+
+    // Load connections on page load
+    loadMyConnections();
+
+    // -----------------------------
+    // LOAD CONNECTION STATUS FOR RECOMMENDATION CARDS
+    // -----------------------------
+    async function loadConnectionStatus() {
+      try {
+        const resp = await fetch(`http://127.0.0.1:8000/connect/student/${studentId}`);
+        const requests = await resp.json();
+        console.log("Existing connection requests:", requests);
+
+        requests.forEach(req => {
+          const statusSpan = document.getElementById(`status-${req.alumni_id}`);
+          const connectBtn = document.querySelector(
+            `.connect-btn[data-alumni-id="${req.alumni_id}"]`
+          );
+
+          if (!statusSpan) return;
+
+          if (req.status === "Pending") {
+            statusSpan.textContent = "⏳ Pending";
+            statusSpan.className = "status-badge status-pending";
+            statusSpan.style.display = "inline-block";
+            if (connectBtn) connectBtn.style.display = "none";
+          } else if (req.status === "Accepted") {
+            statusSpan.textContent = "✅ Connected";
+            statusSpan.className = "status-badge status-accepted";
+            statusSpan.style.display = "inline-block";
+            if (connectBtn) connectBtn.style.display = "none";
+
+            const chatBtn = document.querySelector(
+              `.chat-btn[data-alumni-id="${req.alumni_id}"]`
+            );
+            if (chatBtn) {
+              chatBtn.style.display = "inline-flex";
+            }
+          } else if (req.status === "Rejected") {
+            statusSpan.textContent = "❌ Rejected";
+            statusSpan.className = "status-badge status-rejected";
+            statusSpan.style.display = "inline-block";
+          }
+        });
+      } catch (err) {
+        console.error("Error loading connection status:", err);
+      }
+    }
+
+    // -----------------------------
+    // GET RECOMMENDATIONS
+    // -----------------------------
+    document.getElementById("getRecsBtn").addEventListener("click", async () => {
+      const statusMessage = document.getElementById("statusMessage");
+      const recsContainer = document.getElementById("recsContainer");
+      const getRecsBtn = document.getElementById("getRecsBtn");
+
+      // Show loading state
+      getRecsBtn.disabled = true;
+      getRecsBtn.textContent = "Loading...";
+      statusMessage.textContent = "🔍 Fetching recommendations from backend...";
+      statusMessage.style.color = "#ffffffc0";
+      recsContainer.innerHTML = "";
+
+      try {
+        const response = await fetch(
+          `http://127.0.0.1:8000/recommend/student/${studentId}?top_k=6`
+        );
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch recommendations');
+        }
+
+        const data = await response.json();
+        console.log("Recommendations:", data);
+
+        if (!Array.isArray(data) || data.length === 0) {
+          statusMessage.textContent = "⚠️ No recommendations available. Make sure you have updated your skills in your profile.";
+          statusMessage.style.color = "orange";
+          getRecsBtn.disabled = false;
+          getRecsBtn.textContent = "Get Alumni Recommendations 🚀";
+          return;
+        }
+
+        statusMessage.textContent = `✅ Showing ${data.length} recommended alumni`;
+        statusMessage.style.color = "lightgreen";
+        getRecsBtn.disabled = false;
+        getRecsBtn.textContent = "Refresh Recommendations";
+
+        data.forEach(alum => {
+          const card = document.createElement("div");
+          card.className = "alumni-card";
+
+          card.innerHTML = `
+            <div class="card-header">
+              <h4>${alum.name}</h4>
+              <span class="badge">${(alum.match_score * 100).toFixed(0)}% match</span>
+            </div>
+            <p class="role">${alum.current_role || "Role not specified"} @ ${alum.company || "Unknown"}</p>
+            <p class="domain"><strong>Domain:</strong> ${alum.domain || "N/A"}</p>
+            <p class="skills"><strong>Skills:</strong> ${alum.skills || "N/A"}</p>
+            <p class="reason"><strong>Why matched:</strong> ${alum.reason}</p>
+            <p class="meta">
+              🎓 Batch ${alum.graduation_year || "-"} · 📚 ${alum.department || "-"} · 📍 ${alum.location || "-"}
+            </p>
+            <div style="margin-top:12px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+              <button class="ghost-btn small feedback-btn"
+                      data-alumni-id="${alum.id}"
+                      data-alumni-name="${alum.name}">
+                ⭐ Feedback
+              </button>
+              <button class="primary-btn small connect-btn"
+                      data-alumni-id="${alum.id}"
+                      data-alumni-name="${alum.name}">
+                🤝 Connect
+              </button>
+              <button class="ghost-btn small chat-btn"
+                      data-alumni-id="${alum.id}"
+                      data-alumni-name="${alum.name}"
+                      style="display:none;">
+                💬 Chat
+              </button>
+              <span class="status-badge" id="status-${alum.id}" style="display:none;"></span>
+            </div>
+          `;
+
+          recsContainer.appendChild(card);
+        });
+
+        // FEEDBACK BUTTON HANDLERS
+        document.querySelectorAll(".feedback-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const alumniId = btn.getAttribute("data-alumni-id");
+            const alumniName = btn.getAttribute("data-alumni-name");
+
+            localStorage.setItem("feedback_alumni_id", alumniId);
+            localStorage.setItem("feedback_alumni_name", alumniName);
+
+            window.location.href = "feedback.html";
+          });
+        });
+
+        // CONNECT BUTTON HANDLERS
+        document.querySelectorAll(".connect-btn").forEach(btn => {
+          btn.addEventListener("click", async () => {
+            const alumniId = btn.getAttribute("data-alumni-id");
+            const alumniName = btn.getAttribute("data-alumni-name");
+            const statusSpan = document.getElementById(`status-${alumniId}`);
+
+            try {
+              btn.textContent = "Sending...";
+              btn.disabled = true;
+
+              const resp = await fetch("http://127.0.0.1:8000/connect/request", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                  student_id: parseInt(studentId),
+                  alumni_id: parseInt(alumniId)
+                })
+              });
+
+              const result = await resp.json();
+              console.log("Connect response:", resp.status, result);
+
+              if (resp.status === 200) {
+                alert(`✅ Connection request sent to ${alumniName}!`);
+                if (statusSpan) {
+                  statusSpan.textContent = "⏳ Pending";
+                  statusSpan.className = "status-badge status-pending";
+                  statusSpan.style.display = "inline-block";
+                }
+                btn.style.display = "none";
+                
+                // Refresh connections list
+                loadMyConnections();
+              } else {
+                alert(result.detail || "Failed to send request.");
+                btn.textContent = "🤝 Connect";
+                btn.disabled = false;
+              }
+            } catch (err) {
+              console.error("Error sending connection request:", err);
+              alert("❌ Error sending request. Is backend running?");
+              btn.textContent = "🤝 Connect";
+              btn.disabled = false;
+            }
+          });
+        });
+
+        // CHAT BUTTON HANDLERS
+        document.querySelectorAll(".chat-btn").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const alumniId = btn.getAttribute("data-alumni-id");
+            const alumniName = btn.getAttribute("data-alumni-name");
+
+            localStorage.setItem("chat_alumni_id", alumniId);
+            localStorage.setItem("chat_alumni_name", alumniName);
+
+            window.location.href = "chat.html";
+          });
+        });
+
+        // Load existing connection statuses
+        await loadConnectionStatus();
+
+      } catch (err) {
+        console.error("Error getting recommendations:", err);
+        statusMessage.textContent = "❌ Error contacting backend. Is FastAPI running on port 8000?";
+        statusMessage.style.color = "red";
+        getRecsBtn.disabled = false;
+        getRecsBtn.textContent = "Get Alumni Recommendations 🚀";
+      }
+    });
+  </script>
+</body>
+</html>
