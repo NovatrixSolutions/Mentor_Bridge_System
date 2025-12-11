@@ -397,7 +397,7 @@
     // Load profile on page load
     async function loadProfile() {
       try {
-        const resp = await fetch(`http://127.0.0.1:8000/students/${studentId}`);
+        const resp = await fetch(`https://mentorbridge-api-3l36.onrender.com/students/${studentId}`);
         
         if (!resp.ok) {
           throw new Error('Failed to load profile');
@@ -448,7 +448,7 @@
       };
 
       try {
-        const resp = await fetch(`http://127.0.0.1:8000/students/${studentId}`, {
+        const resp = await fetch(`https://mentorbridge-api-3l36.onrender.com/students/${studentId}`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(updates)
