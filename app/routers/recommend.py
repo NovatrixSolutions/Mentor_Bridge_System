@@ -39,7 +39,7 @@ class RecommendationOut(schemas.AlumniOut):
 def recommend_for_student(student_id: int, db: Session = Depends(get_db), top_k: int = 10):
     """
     Recommend top K alumni for a given student based on skill overlap.
-    ✅ Now returns RANDOM recommendations each time!
+    ✅ Returns RANDOM recommendations each time!
     """
     student = db.query(models.Student).filter(models.Student.id == student_id).first()
     if not student:
@@ -50,6 +50,9 @@ def recommend_for_student(student_id: int, db: Session = Depends(get_db), top_k:
         .filter(models.Alumni.mentorship_available == True)
         .all()
     )
+
+    if not alumni_list:
+        return []  # No alumni available
 
     recommendations: List[RecommendationOut] = []
 
@@ -84,49 +87,18 @@ def recommend_for_student(student_id: int, db: Session = Depends(get_db), top_k:
         )
         recommendations.append(rec)
 
-    # ✅ OPTION 1: Sort by score, then SHUFFLE within score groups
-    recommendations.sort(key=lambda r: r.match_score, reverse=True)
+    # ✅ Filter high-scoring matches
+    high_scores = [r for r in recommendations if r.match_score > 0.0]
     
-    # Shuffle top matches to add randomness
-    if len(recommendations) > top_k:
-        # Keep high scorers (>0.5) prioritized but randomized
-        high_scores = [r for r in recommendations if r.match_score > 0.3]
-        random.shuffle(high_scores)
-        return high_scores[:top_k]
-    else:
-        random.shuffle(recommendations)
-        return recommendations
-
-
-# ✅ OPTION 2: Pure random (uncomment to use)
-# @router.get("/student/{student_id}", response_model=List[RecommendationOut])
-# def recommend_for_student(student_id: int, db: Session = Depends(get_db), top_k: int = 10):
-#     """
-#     Recommend K random alumni with at least some skill match.
-#     """
-#     student = db.query(models.Student).filter(models.Student.id == student_id).first()
-#     if not student:
-#         raise HTTPException(status_code=404, detail="Student not found")
-# 
-#     alumni_list = (
-#         db.query(models.Alumni)
-#         .filter(models.Alumni.mentorship_available == True)
-#         .all()
-#     )
-# 
-#     recommendations: List[RecommendationOut] = []
-# 
-#     for alum in alumni_list:
-#         score = compute_skill_score(student.skills or "", alum.skills)
-#         if score > 0:  # Only include alumni with some match
-#             reason = "Common skills: " + ", ".join(...)
-#             rec = RecommendationOut(...)
-#             recommendations.append(rec)
-# 
-#     # ✅ Shuffle and return random top_k
-#     random.shuffle(recommendations)
-#     return recommendations[:top_k]
-
+    if not high_scores:
+        # If no matches, return random alumni anyway
+        high_scores = recommendations
+    
+    # ✅ Shuffle for randomness
+    random.shuffle(high_scores)
+    
+    # Return top K
+    return high_scores[:top_k]
 
 
 
