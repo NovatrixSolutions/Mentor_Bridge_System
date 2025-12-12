@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List, Optional
+import random
 
 from ..database import get_db
 from .. import models, schemas
@@ -12,10 +13,7 @@ router = APIRouter(
 
 
 def compute_skill_score(student_skills: str, alumni_skills: Optional[str]) -> float:
-    """
-    Very simple similarity:
-    score = common_skills / total_student_skills
-    """
+    """Compute skill match score"""
     if not student_skills or not alumni_skills:
         return 0.0
 
@@ -37,33 +35,37 @@ class RecommendationOut(schemas.AlumniOut):
 @router.get("/student/{student_id}", response_model=List[RecommendationOut])
 def recommend_for_student(student_id: int, db: Session = Depends(get_db), top_k: int = 10):
     """
-    Recommend top K alumni for a given student based on skill overlap.
-    Later we will replace this with embeddings + RL.
+    ✅ RANDOMIZED recommendations from CSV data
+    Returns different alumni each request!
     """
     student = db.query(models.Student).filter(models.Student.id == student_id).first()
     if not student:
         raise HTTPException(status_code=404, detail="Student not found")
 
+    # Get ALL mentorship-available alumni from CSV
     alumni_list = (
         db.query(models.Alumni)
         .filter(models.Alumni.mentorship_available == True)
         .all()
     )
 
+    if not alumni_list:
+        return []
+
     recommendations: List[RecommendationOut] = []
 
+    # Score each alumni
     for alum in alumni_list:
         score = compute_skill_score(student.skills or "", alum.skills)
         if score == 0:
             reason = "No matching skills"
         else:
-            reason = "Common skills: " + ", ".join(
-                set(
-                    [s.strip() for s in (student.skills or "").split(",")]
-                ).intersection(
-                    set([s.strip() for s in (alum.skills or "").split(",")])
-                )
+            common_skills = set(
+                [s.strip() for s in (student.skills or "").split(",")]
+            ).intersection(
+                set([s.strip() for s in (alum.skills or "").split(",")])
             )
+            reason = "Common skills: " + ", ".join(common_skills)
 
         rec = RecommendationOut(
             id=alum.id,
@@ -83,8 +85,139 @@ def recommend_for_student(student_id: int, db: Session = Depends(get_db), top_k:
         )
         recommendations.append(rec)
 
-    # sort by score high → low
-    recommendations.sort(key=lambda r: r.match_score, reverse=True)
+    # ✅ SHUFFLE for randomness
+    high_scores = [r for r in recommendations if r.match_score > 0.0]
+    
+    if not high_scores:
+        high_scores = recommendations
+    
+    random.shuffle(high_scores)
+    
+    return high_scores[:top_k]
 
-    # return top K
-    return recommendations[:top_k]  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# from fastapi import APIRouter, Depends, HTTPException
+# from sqlalchemy.orm import Session
+# from typing import List, Optional
+
+# from ..database import get_db
+# from .. import models, schemas
+
+# router = APIRouter(
+#     prefix="/recommend",
+#     tags=["Recommendations"]
+# )
+
+
+# def compute_skill_score(student_skills: str, alumni_skills: Optional[str]) -> float:
+#     """
+#     Very simple similarity:
+#     score = common_skills / total_student_skills
+#     """
+#     if not student_skills or not alumni_skills:
+#         return 0.0
+
+#     student_list = [s.strip().lower() for s in student_skills.split(",") if s.strip()]
+#     alumni_list = [s.strip().lower() for s in alumni_skills.split(",") if s.strip()]
+
+#     if not student_list:
+#         return 0.0
+
+#     common = set(student_list).intersection(set(alumni_list))
+#     return len(common) / len(student_list)
+
+
+# class RecommendationOut(schemas.AlumniOut):
+#     match_score: float
+#     reason: str
+
+
+# @router.get("/student/{student_id}", response_model=List[RecommendationOut])
+# def recommend_for_student(student_id: int, db: Session = Depends(get_db), top_k: int = 10):
+#     """
+#     Recommend top K alumni for a given student based on skill overlap.
+#     Later we will replace this with embeddings + RL.
+#     """
+#     student = db.query(models.Student).filter(models.Student.id == student_id).first()
+#     if not student:
+#         raise HTTPException(status_code=404, detail="Student not found")
+
+#     alumni_list = (
+#         db.query(models.Alumni)
+#         .filter(models.Alumni.mentorship_available == True)
+#         .all()
+#     )
+
+#     recommendations: List[RecommendationOut] = []
+
+#     for alum in alumni_list:
+#         score = compute_skill_score(student.skills or "", alum.skills)
+#         if score == 0:
+#             reason = "No matching skills"
+#         else:
+#             reason = "Common skills: " + ", ".join(
+#                 set(
+#                     [s.strip() for s in (student.skills or "").split(",")]
+#                 ).intersection(
+#                     set([s.strip() for s in (alum.skills or "").split(",")])
+#                 )
+#             )
+
+#         rec = RecommendationOut(
+#             id=alum.id,
+#             alumni_id=alum.alumni_id,
+#             name=alum.name,
+#             graduation_year=alum.graduation_year,
+#             department=alum.department,
+#             current_role=alum.current_role,
+#             company=alum.company,
+#             experience_years=alum.experience_years,
+#             skills=alum.skills,
+#             domain=alum.domain,
+#             location=alum.location,
+#             mentorship_available=alum.mentorship_available,
+#             match_score=round(score, 2),
+#             reason=reason,
+#         )
+#         recommendations.append(rec)
+
+#     # sort by score high → low
+#     recommendations.sort(key=lambda r: r.match_score, reverse=True)
+
+#     # return top K
+#     return recommendations[:top_k]  
