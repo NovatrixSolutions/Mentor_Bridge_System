@@ -792,7 +792,7 @@
               btn.textContent = "Sending...";
               btn.disabled = true;
 
-              const resp = await fetch("http://127.0.0.1:8000/connect/request", {
+              const resp = await fetch("https://mentorbridge-api-3l36.onrender.com/connect/request", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
